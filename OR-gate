@@ -1,0 +1,43 @@
+module or_gate(a,b,y);
+  input a,b;
+  output y;
+  assign y=(a|b);
+endmodule
+
+tb in random mode
+module tb;
+  reg a,b;
+  wire y;
+  or_gate dut(a,b,y);
+  initial begin
+    repeat(10) begin
+      a=$random;
+      b=$random;
+      #10;
+      $display("time=%0t,a value=%b,b value=%b,output y=%b",$time,a,b,y);
+    end
+  end
+endmodule
+ 
+tb in manual mode
+module tb;
+  reg a,b;
+  wire y;
+  or_gate dut(a,b,y);
+  initial begin
+    $monitor("time=%0t,a value=%b,b value=%b,output y=%b",$time,a,b,y);
+    a=0;b=0;
+    #4
+    a=0;b=1;
+    #4
+    a=1;b=0;
+    #4
+    a=1;b=1;
+    #4
+  end
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(1,tb);
+  end
+endmodule
+    
