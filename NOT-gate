@@ -1,0 +1,20 @@
+module not_gate(a,b); 
+input a;
+output b; 
+assign b=~(a);
+endmodule
+
+module tb;
+reg a; 
+wire b;
+not_gate dut(a,b); 
+initial begin
+$monitor("time=%0t,a value=%b,,output b=%b",$time,a,b); 
+a=0;
+#4 
+a=1;
+end
+initial begin
+$dumpfile("dump.vcd");
+$dumpvars(1,tb); end
+endmodule 
