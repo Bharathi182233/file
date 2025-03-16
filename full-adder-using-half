@@ -1,0 +1,32 @@
+module ha_adder(a,b,s,c);
+  input a,b;
+  output s,c;
+  assign s=a^b;
+  assign c=a&b;
+endmodule
+module fa_using_ha(a,b,cin,sum,cout);
+  input a,b,cin;
+  output sum,cout;
+  wire w1,w2,w3;
+  ha_adder uo(.a(a),.b(b),.s(w1),.c(w2));
+  ha_adder u1(.a(w1),.b(cin),.s(sum),.c(w3));
+  or g1(cout,w2,w3);
+endmodule
+
+module tb;
+  reg a,b,cin;
+  wire sum,cout;
+  full_adder dut(a,b,cin,sum,cout);
+  initial begin
+    repeat(20) begin
+      {a,b,cin}=$random;
+      #10
+      $display("time=%0t,a=%b,b=%b,cin=%b,sum=%b,cout=%b",$time,a,b,cin,sum,cout);
+    end 
+  end
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(1,tb);
+  end
+endmodule
+
