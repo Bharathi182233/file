@@ -1,0 +1,25 @@
+module full_adder(a,b,cin,sum,cout);
+  input a,b,cin;
+  output sum,cout;
+  assign sum=(a^b)^cin;
+  assign cout=a&b|b&cin|cin&a;
+endmodule
+
+
+module tb;
+  reg a,b,cin;
+  wire sum,cout;
+  full_adder dut(a,b,cin,sum,cout);
+  initial begin
+    repeat(20) begin
+      {a,b,cin}=$random;
+      #10
+      $display("time=%0t,a=%b,b=%b,cin=%b,sum=%b,cout=%b",$time,a,b,cin,sum,cout);
+    end 
+  end
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(1,tb);
+  end
+endmodule
+
