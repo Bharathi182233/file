@@ -1,0 +1,29 @@
+module ha_nand(a,b,sum,carry);
+  input a,b;
+  wire w1,w2,w3,w4;
+  output reg sum,carry;
+    assign w1=~(a&b);
+    assign w2=~(a&w1);
+    assign w3=~(w1&b);
+    assign sum=~(w2&w3);
+    assign w4=~(a&b);
+    assign carry=~(w4);
+endmodule
+
+module tb;
+  reg a,b;
+  wire sum,carry;
+  ha_nand dut(a,b,sum,carry);
+  initial begin
+    repeat(20) begin
+      {a,b}=$random;
+      #10
+      $display("time=%0t,a=%b,b=%b,sum=%b,carry=%b",$time,a,b,sum,carry);
+    end 
+  end
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(1,tb);
+  end
+endmodule
+
