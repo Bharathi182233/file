@@ -1,0 +1,30 @@
+module fa_sub (a,b,cin,d,br);
+  input a,b,cin;
+  output d,br;
+  wire w1,w2,w3,w4,w5;
+  xor g1(w1,a,b);
+  not g2(w2,w1);
+  not g3(w3,a);
+  xor g4(d,w1,cin);
+  and g5(w4,w3,b);
+  and g6(w5,w2,cin);
+  or g7(br,w5,w4);
+endmodule
+
+module tb;
+  reg a,b,cin;
+  wire d,br;
+  fa_sub dut(a,b,cin,d,br);
+  initial begin
+    repeat(15) begin
+      {a,b,cin}=$random;
+      #10
+      $display("time=%0t,a=%b,b=%b,cin=%b,d=%b,br=%b",$time,a,b,cin,d,br);
+    end
+  end
+   initial begin
+   $dumpfile("dump.vcd");
+   $dumpvars(1,tb);
+ end
+endmodule
+
