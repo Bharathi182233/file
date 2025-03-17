@@ -1,0 +1,24 @@
+module fa_sub (a,b,cin,d,br);
+  input a,b,cin;
+  output d,br;
+  assign d=(a^b^cin);
+  assign br=(~a&b)|(b&cin)|(~a&cin);
+endmodule
+
+module tb;
+  reg a,b,cin;
+  wire d,br;
+  fa_sub dut(a,b,cin,d,br);
+  initial begin
+    repeat(15) begin
+      {a,b,cin}=$random;
+      #10
+      $display("time=%0t,a=%b,b=%b,cin=%b,d=%b,br=%b",$time,a,b,cin,d,br);
+    end
+  end
+   initial begin
+   $dumpfile("dump.vcd");
+   $dumpvars(1,tb);
+ end
+endmodule
+
